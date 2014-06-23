@@ -1,0 +1,16 @@
+
+# general
+target
+
+# netbeans
+nbactions.xml
+nb-configuration.xml
+
+# eclipse
+.classpath
+.project
+.settings/
+
+# intelliJ
+.idea
+*.iml
