@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+    <!-- This file is the web application deployment descriptor for this 
+    application. It defines everything a server needs to know about the 
+    application (except the context path which is assigned by the Application
+    Deployer and Administrator when the application is deployed). Things like
+    servlets, filters, listeners, initialization parameters, container-managed
+    security contraints, resources, welcome pages etc. -->
+    
+    <!-- define a short name that can be displayed by GUI tools -->
     <display-name>FireBlade Server</display-name>
 
+    <!-- declare where the application context lives -->
     <context-param>
         <param-name>contextConfiguration</param-name>
 	<param-value>classpath:/spring/application-context.xml</param-value>
     </context-param>
 
+    <!-- use a listener to tie the lifecycle of the application-context to the 
+    servlet-context (fireblade-servlet) and automate the creation of application-context -->
     <listener>
         <listener-class>org.springwork.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- MVC is request-driven, designed around a central servlet that dispatches
+    requests to controllers, an expression of the FrontController pattern. It
+    delegates requests to the appropriate controller to handle the request. Upon
+    initialization this will look for fireblade.xml in WEB-INF and create the beans
+    defined there -->
     <servlet>
         <servlet-name>fireblade</servlet-name>
 	<servlet-class>org.springwork.web.servlet.DispatherServlet</servlet-class>
 	<load-on-startup>1</load-on-startup>
     </servlet>
 
+    <!-- all requests at the root with be handled by the fireblade servlet -->
     <servlet-mapping>
         <servlet-name>fireblade</servlet-name>
 	<url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- define what to show when no filename is provided in the url -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

@@ -6,7 +6,7 @@
 	<property name="locations">
 	    <list>
 	        <value>classpath:default.properties</value>
-		<!-- allow override -->
+		<!-- allow override of properties with an external properties file -->
 		<value>file:#{systemProperties['override.properties']}</value>
 	    </list>
 	</property>
