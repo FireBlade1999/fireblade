@@ -24,5 +24,7 @@
     </bean>
     
     <bean id="P3PFilter" class="org.fireblade.pixel.server.P3PFilter" />
+    
+    <bean id="NewUserFilter" class="org.fireblade.pixel.server.NewUserFilter" />
 
 </beans>    
