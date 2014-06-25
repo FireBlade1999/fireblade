@@ -25,6 +25,10 @@
     
     <bean id="P3PFilter" class="org.fireblade.pixel.server.P3PFilter" />
     
-    <bean id="NewUserFilter" class="org.fireblade.pixel.server.NewUserFilter" />
+    <bean id="newUserFilter" class="org.fireblade.pixel.server.NewUserFilter">
+        <constructor-arg index="0" ref="userGen" />
+    </bean>
+    
+    <bean id="userGen" class="org.fireblade.pixel.server.NewUserGenerator" />
 
 </beans>    

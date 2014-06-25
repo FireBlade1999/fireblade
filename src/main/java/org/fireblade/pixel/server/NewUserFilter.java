@@ -17,6 +17,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewUserFilter implements Filter {
 
+    private final NewUserGenerator userGen;
+    
+    public NewUserFilter(NewUserGenerator userGen) {
+        this.userGen = userGen;
+    }
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // do nothing
@@ -38,7 +44,12 @@ public class NewUserFilter implements Filter {
         
         // new user
         if (user == null) {
-            // TODO - act on new user
+            userGen.generate().writeTo(httpServletResponse);
+            // TODO - set a redirect
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            
+            // stop the request going down the chain when doing a redirect
+            // return;
         }
         
         // proceed with request
