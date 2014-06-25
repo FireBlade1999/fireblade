@@ -15,6 +15,7 @@
         <spring.version>3.2.2.RELEASE</spring.version>
         <servlet-api.version>2.5</servlet-api.version>
         <jstl.version>1.2</jstl.version>
+        <joda-time.version>2.2</joda-time.version>
     </properties>
     
     <dependencies>
@@ -37,6 +38,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>${servlet-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time.version}</version>
         </dependency>
         <!-- include this dependency as Tomcat doesn't have jstl library -->
         <dependency>

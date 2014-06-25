@@ -27,6 +27,20 @@ public class NewUserFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         
+        User user;
+        
+        try {
+            user = User.readFrom(httpServletRequest);
+        } catch (Exception iue) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return;
+        }
+        
+        // new user
+        if (user == null) {
+            // TODO - act on new user
+        }
+        
         // proceed with request
         chain.doFilter(request, response);
     }
