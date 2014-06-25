@@ -13,14 +13,14 @@
 
     <!-- declare where the application context lives -->
     <context-param>
-        <param-name>contextConfiguration</param-name>
-	<param-value>classpath:/spring/application-context.xml</param-value>
+        <param-name>contextConfigLocation</param-name>
+	<param-value>/WEB-INF/application-context.xml</param-value>
     </context-param>
 
     <!-- use a listener to tie the lifecycle of the application-context to the 
     servlet-context (fireblade-servlet) and automate the creation of application-context -->
     <listener>
-        <listener-class>org.springwork.web.context.ContextLoaderListener</listener-class>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
     <!-- MVC is request-driven, designed around a central servlet that dispatches
@@ -30,7 +30,7 @@
     defined there -->
     <servlet>
         <servlet-name>fireblade</servlet-name>
-	<servlet-class>org.springwork.web.servlet.DispatherServlet</servlet-class>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	<load-on-startup>1</load-on-startup>
     </servlet>
 
