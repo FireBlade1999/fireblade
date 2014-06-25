@@ -22,5 +22,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" ref="configuration" />
     </bean>
+    
+    <bean id="P3PFilter" class="org.fireblade.pixel.server.P3PFilter" />
 
 </beans>    
