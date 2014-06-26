@@ -17,8 +17,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewUserFilter implements Filter {
 
+    /** The user generator to use. */
     private final NewUserGenerator userGen;
     
+    /**
+     * Constructor. A NewUserGenerator is injected in and used to generate
+     * new user Id's.
+     * 
+     * @param userGen the NewUserGenerator to use
+     */
     public NewUserFilter(NewUserGenerator userGen) {
         this.userGen = userGen;
     }
@@ -28,6 +35,17 @@ public class NewUserFilter implements Filter {
         // do nothing
     }
 
+    /**
+     * Read the HttpServletRequest and check if they are already being tracked.
+     * If not, the user Id will not be found/set, so generate a new user Id, and
+     * drop the cookie on the browser, then perform a cookie check (redirect).
+     *
+     * @param request the HttpServletRequest to read from
+     * @param response the HttpServletResponse to write to
+     * @param chain the filter chain
+     * @throws IOException if unable to complete IO operation
+     * @throws ServletException if unable to continue the chain
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;

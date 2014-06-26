@@ -22,6 +22,16 @@ public class HasUserFilter implements Filter {
         // do nothing
     }
 
+    /**
+     * Read the HttpServletRequest and set the "user" attribute; or set status
+     * to SC_NO_CONTENT if unable to do so.
+     * 
+     * @param request the HttpServletRequest to read from
+     * @param response the HttpServletResponse to write to
+     * @param chain the filter chain
+     * @throws IOException if unable to complete IO operation
+     * @throws ServletException if unable to continue the chain
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;

@@ -11,21 +11,39 @@ import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
 /**
- *
+ * A user with unique Id, who we can potentially track with cookies.
+ * 
  * @author swilliams
  */
 public class User {
     
+    /** Unique id for the user */
     private final UUID id;
     
+    /**
+     * Constructor.
+     * 
+     * @param id the user id for this object
+     */
     public User(UUID id) {
         this.id = id;
     }
     
+    /** 
+     * @return the user objects id
+     */
     public UUID getId() {
         return id;
     }
     
+    /**
+     * Return a User object using the FB_ID cookie if one is present. Return 
+     * null if there is not FB_ID cookie.
+     * 
+     * @param request the HttpServletRequest to check for cookie
+     * @return the User object or null if no cookie is found
+     * @throws Exception if unable to complete the operation
+     */
     public static User readFrom(HttpServletRequest request) throws Exception {
         Cookie[] cookies = request.getCookies();
         
@@ -46,9 +64,9 @@ public class User {
     /**
      * Take the string value of the cookie and return a User
      * 
-     * @param cookieValue
-     * @return
-     * @throws Exception 
+     * @param cookieValue the string representation of the cookie value
+     * @return the User object associated with the cookie user Id
+     * @throws Exception if unable to complete the operation
      */
     private static User getUser(String cookieValue) throws Exception {
         try {
@@ -59,6 +77,12 @@ public class User {
         throw new Exception("Unable to read/parse the user cookie");
     }
     
+    /**
+     * Drop a FB_ID cookie on the browser.
+     * 
+     * @param response the HttpServletResponse to which the cookie is added
+     * @throws UnsupportedEncodingException if unable to encode the cookie value
+     */
     public void writeTo(HttpServletResponse response) throws UnsupportedEncodingException {
         String cookieValue = id.toString();
         
