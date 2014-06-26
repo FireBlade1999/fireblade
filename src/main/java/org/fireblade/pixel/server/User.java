@@ -1,6 +1,7 @@
 package org.fireblade.pixel.server;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
@@ -25,7 +26,7 @@ public class User {
         return id;
     }
     
-    public static User readFrom(HttpServletRequest request) {
+    public static User readFrom(HttpServletRequest request) throws Exception {
         Cookie[] cookies = request.getCookies();
         
         if (cookies == null || cookies.length == 0) {
@@ -34,13 +35,28 @@ public class User {
         
         for (Cookie cookie: cookies) {
             if ("FB_ID".equals(cookie.getName())) {
-                // TODO - return something valuable
-                return null;
+                return getUser(URLDecoder.decode(cookie.getValue(), "UTF-8"));
             }
         }
         
         // no cookie found
         return null;
+    }
+    
+    /**
+     * Take the string value of the cookie and return a User
+     * 
+     * @param cookieValue
+     * @return
+     * @throws Exception 
+     */
+    private static User getUser(String cookieValue) throws Exception {
+        try {
+            return new User(UUID.fromString(cookieValue));
+        } catch (Exception e) {
+            // ignore it, we'll throw one anyway
+        }
+        throw new Exception("Unable to read/parse the user cookie");
     }
     
     public void writeTo(HttpServletResponse response) throws UnsupportedEncodingException {

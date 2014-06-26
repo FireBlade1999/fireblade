@@ -11,18 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Add a user cookie to the response if none is present in the request.
+ * Verify the user cookie was successfully dropped.
  * 
  * @author swilliams
  */
-public class NewUserFilter implements Filter {
+public class HasUserFilter implements Filter {
 
-    private final NewUserGenerator userGen;
-    
-    public NewUserFilter(NewUserGenerator userGen) {
-        this.userGen = userGen;
-    }
-    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // do nothing
@@ -35,13 +29,6 @@ public class NewUserFilter implements Filter {
         
         User user;
         
-        /*
-            if this is a previously cookied user then proceed with the request,
-            otherwise generate a user Id and drop a cookie, then redirect to a
-            cookie check to verify it was successfully dropped. When doing the
-            redirect, the request is stopped, in order to force the browser to
-            perform the 302. 
-        */
         try {
             user = User.readFrom(httpServletRequest);
         } catch (Exception iue) {
@@ -49,18 +36,14 @@ public class NewUserFilter implements Filter {
             return;
         }
         
-        // new user
         if (user == null) {
-            userGen.generate().writeTo(httpServletResponse);
-            httpServletResponse.addHeader("Location", "/fireblade-server/cc");
-            httpServletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-            
-            // stop the request going down the chain when doing a redirect
+            // cookie was not dropped on browser, or is corrupted in some way.
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return;
         }
         
-        // proceed with request
-        httpServletRequest.setAttribute("user", user);
+        // proceed with the request
+        request.setAttribute("user", user);
         chain.doFilter(request, response);
     }
 

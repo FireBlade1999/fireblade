@@ -40,6 +40,14 @@
         <filter-name>newUserFilter</filter-name>
         <url-pattern>/fb</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>hasUserFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hasUserFilter</filter-name>
+        <url-pattern>/cc</url-pattern>
+    </filter-mapping>
     
 
     <!-- MVC is request-driven, designed around a central servlet that dispatches

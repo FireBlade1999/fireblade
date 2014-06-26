@@ -30,5 +30,7 @@
     </bean>
     
     <bean id="userGen" class="org.fireblade.pixel.server.NewUserGenerator" />
+    
+    <bean id="hasUserFilter" class="org.fireblade.pixel.server.HasUserFilter" />
 
 </beans>    
