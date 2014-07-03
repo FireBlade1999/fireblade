@@ -27,6 +27,7 @@ public class FireBladeController {
      */
     @RequestMapping(value = {"/fb"}, method = RequestMethod.GET)
     public void handle(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("controller");
         User user = (User) request.getAttribute("user");
         
         logPageView(request, user);

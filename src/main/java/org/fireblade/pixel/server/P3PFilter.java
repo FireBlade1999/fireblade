@@ -29,6 +29,7 @@ public class P3PFilter implements Filter {
         httpServletResponse.setHeader("P3P", "CP=\"NON DSP CURa ADMa DEVa TAIa PSAa PSDa OUR IND UNI COM NAV INT DEM CNT STA PRE LOC\"");
         
         chain.doFilter(request, response);
+        System.out.println("p3pfilter");
     }
 
     @Override

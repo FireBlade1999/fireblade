@@ -91,9 +91,7 @@ public class User {
         int expiryTimeInSeconds = Seconds.secondsBetween(currentTime, expiryTime).getSeconds();
         
         Cookie newCookie = new Cookie("FB_ID", URLEncoder.encode(cookieValue, "UTF-8"));
-        newCookie.setPath("/");
-        newCookie.setDomain("");
-        newCookie.setMaxAge(expiryTimeInSeconds);
+        newCookie.setPath("/fireblade-server");
         
         response.addCookie(newCookie);
     }

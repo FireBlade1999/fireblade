@@ -62,6 +62,7 @@ public class NewUserFilter implements Filter {
         */
         try {
             user = User.readFrom(httpServletRequest);
+            System.out.println("newuserfilter: user = " + user);
         } catch (Exception iue) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return;

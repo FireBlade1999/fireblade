@@ -41,6 +41,7 @@ public class HasUserFilter implements Filter {
         
         try {
             user = User.readFrom(httpServletRequest);
+            System.out.println("hasuserfilter: user " + user);
         } catch (Exception iue) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return;
