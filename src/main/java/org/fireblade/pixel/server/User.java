@@ -53,6 +53,7 @@ public class User {
         
         for (Cookie cookie: cookies) {
             if ("FB_ID".equals(cookie.getName())) {
+                System.out.println("User: readFrom FB_ID cookie found.");
                 return getUser(URLDecoder.decode(cookie.getValue(), "UTF-8"));
             }
         }
@@ -92,7 +93,8 @@ public class User {
         
         Cookie newCookie = new Cookie("FB_ID", URLEncoder.encode(cookieValue, "UTF-8"));
         newCookie.setPath("/fireblade-server");
-        
+
+        System.out.println("User: drop cookie.");
         response.addCookie(newCookie);
     }
 

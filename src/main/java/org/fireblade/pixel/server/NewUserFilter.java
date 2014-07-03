@@ -70,6 +70,7 @@ public class NewUserFilter implements Filter {
         
         // new user
         if (user == null) {
+            System.out.println("newuserfileter: redirect.");
             userGen.generate().writeTo(httpServletResponse);
             httpServletResponse.addHeader("Location", "/fireblade-server/cc");
             httpServletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
@@ -79,6 +80,7 @@ public class NewUserFilter implements Filter {
         }
         
         // proceed with request
+        System.out.println("newUserFilter: proceed with request.");
         httpServletRequest.setAttribute("user", user);
         chain.doFilter(request, response);
     }

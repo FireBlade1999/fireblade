@@ -54,6 +54,7 @@ public class HasUserFilter implements Filter {
         }
         
         // proceed with the request
+        System.out.println("hasUserFilter: proceed with request.");
         request.setAttribute("user", user);
         chain.doFilter(request, response);
     }

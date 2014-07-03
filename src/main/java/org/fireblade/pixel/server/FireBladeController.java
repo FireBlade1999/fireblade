@@ -40,21 +40,24 @@ public class FireBladeController {
      * @param user the User object associated with this request
      */
     private void logPageView(HttpServletRequest request, User user) {
+        System.out.println("controller: logPageView");
         String userAgent = request.getHeader("User-Agent");
         String language = request.getLocale().getLanguage();
         String rawUrl = request.getHeader("Referer");
         
-        Logger logger = Logger.getLogger("fireblade-server.log");
+        Logger logger = Logger.getLogger("FireBladeController.java");
         FileHandler fileHandler;
         
         try {
-            fileHandler = new FileHandler("/src/main/resources/fireblade-server.log");
+            fileHandler = new FileHandler("C:\\workspace\\fireblade\\src\\main\\resources\\fireblade-server.log");
             logger.addHandler(fileHandler);
+            logger.setLevel(Level.INFO);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             logger.log(Level.INFO, "User: {0} rawUrl: {1}", new Object[]{user.getId(), rawUrl});
-        } catch (IOException | SecurityException e) {
+        } catch (Exception e) {
             // TODO - handle
+            e.printStackTrace();
         }
     }
 }
