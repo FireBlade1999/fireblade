@@ -14,3 +14,6 @@ nb-configuration.xml
 # intelliJ
 .idea
 *.iml
+
+# logging files
+src/main/resources/fireblade-server.log*
