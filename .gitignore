@@ -16,4 +16,4 @@ nb-configuration.xml
 *.iml
 
 # logging files
-src/main/resources/fireblade-server.log*
+*.log
