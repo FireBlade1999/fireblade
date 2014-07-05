@@ -49,7 +49,7 @@ public class FireBladeController {
         FileHandler fileHandler;
         
         try {
-            fileHandler = new FileHandler("C:\\workspace\\fireblade\\src\\main\\resources\\fireblade-server.log");
+            fileHandler = new FileHandler("classpath:fireblade-server.log");
             logger.addHandler(fileHandler);
             logger.setLevel(Level.INFO);
             SimpleFormatter formatter = new SimpleFormatter();
