@@ -1,0 +1,180 @@
+// Gradle build file
+
+// all sub-projects will inherit things in these parentheses
+//subprojects {
+	// plugins
+	// java makes this a java project
+	apply plugin: 'java'
+	apply plugin: 'groovy'
+
+	// repos
+	repositories {
+		mavenCentral()
+		
+		/**
+		 * maven { url "http://repo.mycompany.com/maven2" }
+		*/
+	}
+
+
+	// dependencies: 
+	dependencies {
+            compile group: 'org.springframework', name: 'spring-context', version: '3.2.2.RELEASE'
+            compile group: 'org.springframework', name: 'spring-web', version: '3.2.2.RELEASE'
+            compile group: 'org.springframework', name: 'spring-webmvc', version: '3.2.2.RELEASE'
+            compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+            compile group: 'joda-time', name: 'joda-time', version: '2.2'
+            compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+            compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+            testCompile group: 'junit', name: 'junit', version: '4.11'
+	}
+
+
+	// project customizations
+	sourceCompatibility = 1.7
+	version = '1.0'
+	jar {
+		manifest {
+			attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-version': '$version'
+		}
+	}
+
+
+	// publish jar to local directory. NOTE: you can publish to remote
+	uploadArchives {
+		repositories {
+			flatDir {
+				dirs 'gradle_builds'
+			}
+		}
+	}
+	
+	/**
+	 * publishing to a maven repo:
+	 * apply plugin: 'maven'
+	 * 	uploadArchives {
+	 * 		repositories {
+	 * 			mavenDeployer {
+	 *				repository(url: "file://localhost/tmp/myrepo/")
+	 *			}
+	 *		}
+	 *	}
+	*/
+//}
+
+
+// parent project tasks
+
+// first task : doLast means do this task last in any series
+task hello {
+	doLast {
+		println "Hello World!"
+	}
+}
+
+
+// << is short-hand for doLast
+task upper << {
+	String someString = "mY nAmE"
+	println "original : " + someString
+	println "upper case : " + someString.toUpperCase()
+}
+
+
+// using Groovy in Gradle tasks
+task count << {
+	4.times {print "$it"}
+}
+
+
+// delendencies
+task intro(dependsOn: hello) << {
+	println "I'm Gradle"
+}
+// lazy dependencies: dependent on task not yet defined
+task taskX(dependsOn: 'taskY') << {
+	println "taskX"
+}
+task taskY << {
+	println "taskY"
+}
+
+
+// dynamic tasks
+// and, accessing a task via API - manipulating existing tasks
+4.times { counter ->
+	task "task$counter" << {
+		println "I'm task number $counter"
+	}
+}
+task0.dependsOn task2, task3
+// dynamic tasks - adding behaviour
+task earth << {
+	println "hello earth"
+}
+earth.doFirst {
+	println "hello venus"
+}
+earth.doLast {
+	println "hello mars"
+}
+earth << {
+	println "hello jupiter"
+}
+
+
+// shortcut notations
+task hi << {
+	println "hi"
+}
+hi.doLast {
+	println "greetings from the $hi.name task"
+}
+
+
+// using antbuilder to execute an ant.loadfile target
+task loadFile << {
+	def files = file('./gradleAntResources').listFiles().sort()
+	files.each { File file ->
+		if (file.isFile()) {
+			ant.loadfile(srcFile: file, property: file.name)
+			println "*** $file.name ***"
+			println "${ant.properties[file.name]}"
+		}
+	}
+}
+
+
+// organising the build logic into methods
+task checksum << {
+	fileList('./gradleAntResources').each {File file ->
+		ant.checksum(file: file, property: "cs $file.name")
+		println "$file.name Checksum: ${ant.properties["cs_$file.name"]}"
+	}
+}
+task fileLoader << {
+	fileList('./gradleAntResources').each {File file ->
+		ant.loadfile(srcFile: file, property: file.name)
+		println "I'm fond of $file.name"
+	}
+}
+File[] fileList(String dir) {
+	file(dir).listFiles({file -> file.isFile()} as FileFilter).sort()
+}
+
+/** post-configuration phase gradle hook provided for info on tasks to be 	executed; eg checking if the release task is among the tasks, etc. Depending
+on this, you can set different values for variables.
+*/
+task distribution << {
+	println "we build the zip with version=$version"
+}
+task release(dependsOn: 'distribution') << {
+	println "we release now"
+}
+gradle.taskGraph.whenReady {taskGraph ->
+	if (taskGraph.hasTask(release)) {
+		version = '1.0'
+	} else {
+		version = '1.0-SNAPSHOT'
+	}
+}
