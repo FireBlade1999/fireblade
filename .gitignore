@@ -17,4 +17,10 @@ nb-configuration.xml
 
 # logging files
 *.log
+<<<<<<< HEAD
 /build/
+=======
+
+# lock files
+src/main/resources/fireblade-server.log.*
+>>>>>>> Added extraneous lock files to gitignore
