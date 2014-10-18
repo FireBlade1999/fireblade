@@ -41,6 +41,7 @@
 
 
 	// publish jar to local directory. NOTE: you can publish to remote
+        // why does this stop working now that there is a 'build' dir?
 	uploadArchives {
 		repositories {
 			flatDir {
