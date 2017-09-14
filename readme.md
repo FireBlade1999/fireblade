@@ -1,1 +1,1 @@
-fireblade project - maven build - pixel server
+fireblade project - pixel server
